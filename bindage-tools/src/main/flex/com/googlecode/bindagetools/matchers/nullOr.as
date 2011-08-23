@@ -25,7 +25,7 @@ import org.hamcrest.object.nullValue;
  *
  * @param matcherOrValue Matcher or value to be wrapped in equalTo.
  */
-public function nullOr(matcherOrValue:*) {
+public function nullOr(matcherOrValue:*):Matcher {
   var matcher:Matcher = matcherOrValue is Matcher
       ? matcherOrValue
       : equalTo(matcherOrValue);
