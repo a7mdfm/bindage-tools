@@ -28,12 +28,8 @@ public class NullOrMatcherTest {
 
   private var matcher:Matcher;
 
-  [Before]
-  public function setUp():void {
-  }
-
   [Test]
-  public function nullOrGreaterThanZero():void {
+  public function nullOrGreaterThanZeroMatcher():void {
     matcher = nullOr(greaterThan(0));
     assertThat(matcher.matches(null));
     assertThat(matcher.matches(1));
@@ -42,13 +38,23 @@ public class NullOrMatcherTest {
   }
 
   [Test]
-  public function nullOrEmptyString():void {
+  public function nullOrEmptyStringMatcher():void {
     matcher = nullOr(emptyString());
 
     assertThat(matcher.matches(null));
     assertThat(matcher.matches(""));
     assertThat(matcher.matches("   "));
     assertThat(matcher.matches("sdlkfjsl"),
+               equalTo(false));
+  }
+
+  [Test]
+  public function nullOrValue():void {
+    matcher = nullOr("abc");
+
+    assertThat(matcher.matches(null));
+    assertThat(matcher.matches("abc"));
+    assertThat(matcher.matches("xyz"),
                equalTo(false));
   }
 
