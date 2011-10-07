@@ -22,7 +22,7 @@ import org.hamcrest.collection.array;
  * Returns a converter function which returns a Boolean value indicating whether the pipeline
  * argument(s) match the specified condition.
  *
- * @param conditions the condition that pipeline argument(s) will be tested against. Valid values:
+ * @param args the condition that pipeline argument(s) will be tested against. Valid values:
  * <ul>
  * <li>A <code>function(arg0, arg1, ... argN):Boolean</code>.  In this case, the function is
  * called with the pipeline arguments, and the result determines whether the pipeline continues
@@ -35,60 +35,47 @@ import org.hamcrest.collection.array;
  * matchers as pipeline arguments</li>
  * </ul>
  * @throws ArgumentError if the validator arguments are invalid
+ * @see com.googlecode.bindagetools.converters.args
  */
-public function toCondition( ...conditions:Array ):Function {
-  var attribute:Function;
-  var condition:Matcher;
-  var expectedArgs:* = null;
-
+public function toCondition( ...args:Array ):Function {
   var usageErrorString:String = "Expecting arguments (condition:Function), (attribute:Function, " +
                                 "condition:Matcher) or (...conditions:Matchers)";
 
-  if (conditions.length == 0) {
+  if (args.length == 0) {
     throw new ArgumentError(usageErrorString);
   }
-  else if (conditions[0] is Function) {
-    if (conditions.length == 1) {
-      // shortcut.  toCondition(function) without a matcher is the same as calling
-      // that function directly.
-      return conditions[0];
-    }
-    else if (conditions.length == 2) {
-      if (conditions[1] is Matcher) {
-        attribute = conditions[0];
-        condition = conditions[1];
-      }
-      else {
-        throw new ArgumentError(usageErrorString);
-      }
-    }
-    else {
-      throw new ArgumentError(usageErrorString);
+  else if (args.length == 1 && args[0] is Function) {
+    // shortcut.  toCondition(function) without a matcher is the same as calling
+    // that function directly.
+    return args[0];
+  }
+  else if (args.length == 2 && args[0] is Function && args[1] is Matcher) {
+    var attribute:Function = args[0];
+    var condition:Matcher = args[1];
+    return function(...values):Boolean {
+      var matchValue:* = attribute.apply(null, values);
+      return condition.matches(matchValue);
     }
   }
   else {
-    for each (var cond:* in conditions) {
+    for each (var cond:* in args) {
       if (!(cond is Matcher)) {
         throw new ArgumentError(usageErrorString);
       }
     }
 
-    attribute = args();
-    condition = array(conditions);
-    expectedArgs = conditions.length;
-  }
+    var arrayCondition:Matcher = array(args);
+    var expectedArgs:Number = args.length;
 
-  return function( ...values ):Boolean {
-    if (expectedArgs != null && expectedArgs != values.length) {
-      throw new ArgumentError("Expected " +
-                              expectedArgs +
-                              " arguments, received " +
-                              values.length);
-    }
+    return function(...values):Boolean {
+      if (expectedArgs != values.length) {
+        throw new ArgumentError("Argument count does not agree with matcher count: expected " +
+                                expectedArgs + ", received " + values.length +
+                                ". Did you forget args()?");
+      }
 
-    var matchValue:* = attribute.apply(null, values);
-
-    return condition.matches(matchValue);
+      return arrayCondition.matches(values);
+    };
   }
 }
 
