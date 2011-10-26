@@ -5,6 +5,12 @@ import mx.core.UIComponent;
  * Returns a custom property object for the style with the specified name.  May be used with
  * UIComponents.
  *
+ * <p>
+ * <em>Note</em>: This property should only be used as a destination property, and not as a source
+ * property. There is no known listener API for UIComponent styles, making it impossible to detect
+ * style changes programatically.
+ * </p>
+ *
  * @param styleProp the style name
  * @return a property object for getting/setting (but not watching) the style with the specified
  * name.
