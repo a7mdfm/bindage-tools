@@ -2,7 +2,7 @@ package com.googlecode.bindagetools.matchers {
 import org.hamcrest.Matcher;
 
 /**
- * Documentation for top-level functions in the BindMe matchers package.  The methods in this
+ * Documentation for top-level functions in the bindage-tools matchers package.  The methods in this
  * class serve as documentation for the public functions in this package.
  *
  * <p>

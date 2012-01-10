@@ -18,8 +18,8 @@ package com.googlecode.bindagetools.converters {
 import org.hamcrest.Matcher;
 
 /**
- * Documentation for top-level functions in the BindMe converters package.  The methods in this
- * class serve as documentation for the public functions in this package.
+ * Documentation for top-level functions in the bindage-tools converters package.  The methods in
+ * this class serve as documentation for the public functions in this package.
  *
  * <p>
  * <em>Note:</em> This class exists as a workaround to an asdoc bug in Flex 3, which causes
