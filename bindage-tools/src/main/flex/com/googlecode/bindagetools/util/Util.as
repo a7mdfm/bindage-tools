@@ -17,7 +17,7 @@
 package com.googlecode.bindagetools.util {
 
 /**
- * Documentation for top-level functions in the BindMe util package.
+ * Documentation for top-level functions in the bindage-tools util package.
  *
  * <p>
  * <em>Note:</em> This class exists as a workaround to an asdoc bug in Flex 3, which causes
