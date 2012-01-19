@@ -39,7 +39,7 @@ public class Properties {
    * condition.
    */
   public function itemThat(matcher:Matcher):Object {
-    return com.googlecode.bindagetools.properties.itemThat(matcher);
+    return com.googlecode.bindagetools.properties.firstItemThat(matcher);
   }
 
   /**

@@ -47,8 +47,9 @@
   <component class="com.googlecode.bindagetools.matchers.IsNumericMatcher"/>
   <component class="com.googlecode.bindagetools.matchers.xor"/>
   <component class="com.googlecode.bindagetools.matchers.XorMatcher"/>
+  <component class="com.googlecode.bindagetools.properties.everyItemThat"/>
+  <component class="com.googlecode.bindagetools.properties.firstItemThat"/>
   <component class="com.googlecode.bindagetools.properties.itemAt"/>
-  <component class="com.googlecode.bindagetools.properties.itemThat"/>
   <component class="com.googlecode.bindagetools.properties.style"/>
   <component class="com.googlecode.bindagetools.util.applyArgs"/>
   <component class="com.googlecode.bindagetools.util.getProperty"/>
