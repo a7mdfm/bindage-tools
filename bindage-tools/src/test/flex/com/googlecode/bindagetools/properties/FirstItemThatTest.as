@@ -29,19 +29,19 @@ import org.hamcrest.object.hasProperty;
 import org.hamcrest.object.instanceOf;
 import org.hamcrest.object.nullValue;
 
-public class ItemThatTest {
+public class FirstItemThatTest {
 
-  public function ItemThatTest() {
+  public function FirstItemThatTest() {
   }
 
   [Test( expected="ArgumentError" )]
-  public function itemThatNullMatcher():void {
-    itemThat(null);
+  public function firstItemThatNullMatcher():void {
+    firstItemThat(null);
   }
 
   [Test]
-  public function itemThatProperties():void {
-    assertThat(itemThat(equalTo("a")),
+  public function firstItemThatProperties():void {
+    assertThat(firstItemThat(equalTo("a")),
                allOf(
                    hasProperties({
                                    name: "getItemAt",
@@ -52,29 +52,29 @@ public class ItemThatTest {
   }
 
   [Test]
-  public function testItemThatWithArrayCollection():void {
+  public function firstItemThatWithArrayCollection():void {
     var a:Bean = newBean("a");
     var b:Bean = newBean("b");
     var c:Bean = newBean("c");
     var coll:ArrayCollection = new ArrayCollection([a, b, c]);
 
-    assertThat(itemThat(hasProperty("foo", "a")).getter(coll), equalTo(a));
-    assertThat(itemThat(hasProperty("foo", "b")).getter(coll), equalTo(b));
-    assertThat(itemThat(hasProperty("foo", "c")).getter(coll), equalTo(c));
-    assertThat(itemThat(hasProperty("foo", "d")).getter(coll), nullValue());
+    assertThat(firstItemThat(hasProperty("foo", "a")).getter(coll), equalTo(a));
+    assertThat(firstItemThat(hasProperty("foo", "b")).getter(coll), equalTo(b));
+    assertThat(firstItemThat(hasProperty("foo", "c")).getter(coll), equalTo(c));
+    assertThat(firstItemThat(hasProperty("foo", "d")).getter(coll), nullValue());
   }
 
   [Test]
-  public function testItemAtWithArray():void {
+  public function firstItemThatWithArray():void {
     var a:Bean = newBean("a");
     var b:Bean = newBean("b");
     var c:Bean = newBean("c");
     var coll:Array = [a, b, c];
 
-    assertThat(itemThat(hasProperty("foo", "a")).getter(coll), equalTo(a));
-    assertThat(itemThat(hasProperty("foo", "b")).getter(coll), equalTo(b));
-    assertThat(itemThat(hasProperty("foo", "c")).getter(coll), equalTo(c));
-    assertThat(itemThat(hasProperty("foo", "d")).getter(coll), nullValue());
+    assertThat(firstItemThat(hasProperty("foo", "a")).getter(coll), equalTo(a));
+    assertThat(firstItemThat(hasProperty("foo", "b")).getter(coll), equalTo(b));
+    assertThat(firstItemThat(hasProperty("foo", "c")).getter(coll), equalTo(c));
+    assertThat(firstItemThat(hasProperty("foo", "d")).getter(coll), nullValue());
   }
 
   private function newBean(fooValue:String):Bean {

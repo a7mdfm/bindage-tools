@@ -19,26 +19,29 @@ package com.googlecode.bindagetools.properties {
 import org.hamcrest.Matcher;
 
 /**
- * Returns a custom property object which gets the first element in an array or collection which
- * matches the specified condition, if any.  May be used with Array and ILists.
+ * Returns a custom property object which gets an array of every element in an array or collection
+ * which matches the specified condition.  May be used with Array and ILists.
  *
  * @param matcher the condition against which array/collection elements will be tested.
  * @return a property object for getting/setting/watching the first item matching the specified
  * condition.
  */
-public function itemThat(matcher:Matcher):Object {
+public function everyItemThat(matcher:Matcher):Object {
   if (null == matcher) {
     throw new ArgumentError("matcher was null");
   }
 
   function getter(obj:Object):* {
+    var result:Array = [];
+
     for (var i:int = 0; i < obj.length; i++) {
       var item:* = obj[i];
       if (matcher.matches(item)) {
-        return item;
+        result.push(item);
       }
     }
-    return null;
+
+    return result;
   }
 
   return {
