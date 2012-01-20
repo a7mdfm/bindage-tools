@@ -24,7 +24,9 @@ import com.googlecode.bindagetools.IPipelineBuilder;
 public class MultiPipelineBuilder extends PipelineBuilder {
   private var sources:Array;
 
-  public function MultiPipelineBuilder( sources:Array ) {
+  public function MultiPipelineBuilder(sources:Array, nextTime:Boolean) {
+    super(nextTime);
+
     if (sources.length < 2) {
       throw new ArgumentError("Multi-source pipelines must provide at least two sources")
     }
@@ -37,7 +39,7 @@ public class MultiPipelineBuilder extends PipelineBuilder {
     this.sources = sources.slice();
   }
 
-  override protected function pipelineRunner( pipeline:IPipeline ):Function {
+  override protected function pipelineRunner(pipeline:IPipeline):Function {
     var args:Array = new Array(sources.length);
 
     function pipelineRunner():void {
@@ -56,7 +58,7 @@ public class MultiPipelineBuilder extends PipelineBuilder {
     return runner;
   }
 
-  override public function watch( handler:Function ):void {
+  override public function watch(handler:Function):void {
     for each (var source:IPipelineBuilder in sources) {
       source.watch(handler);
     }

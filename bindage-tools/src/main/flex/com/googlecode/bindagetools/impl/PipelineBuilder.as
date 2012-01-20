@@ -29,10 +29,12 @@ import flash.events.Event;
 public class PipelineBuilder implements IPipelineBuilder {
   private var groups:Array;
   private var steps:Array;
+  private var nextTime:Boolean;
 
-  public function PipelineBuilder() {
+  public function PipelineBuilder(nextTime:Boolean) {
     groups = [];
     steps = [];
+    this.nextTime = nextTime;
   }
 
   public function append( step:IPipelineStep ):IPipelineBuilder {
@@ -165,7 +167,9 @@ public class PipelineBuilder implements IPipelineBuilder {
 
     watch(handler);
 
-    handler(null);
+    if (!nextTime) {
+      handler(null);
+    }
 
     return this;
   }
