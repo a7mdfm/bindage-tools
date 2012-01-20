@@ -36,8 +36,9 @@ public class PropertyPipelineBuilder extends PipelineBuilder implements IPropert
     return _properties.slice();
   }
 
-  public function PropertyPipelineBuilder( source:Object,
-                                           properties:Array ) {
+  public function PropertyPipelineBuilder(source:Object, properties:Array, nextTime:Boolean) {
+    super(nextTime);
+
     if (null == source) {
       throw new ArgumentError("source was null");
     }
@@ -58,14 +59,14 @@ public class PropertyPipelineBuilder extends PipelineBuilder implements IPropert
     this._properties = normalizedProperties;
   }
 
-  override protected function pipelineRunner( pipeline:IPipeline ):Function {
+  override protected function pipelineRunner(pipeline:IPipeline):Function {
     return function():void {
       var value:Object = getProperty(_source, _properties);
       pipeline.run([value]);
     };
   }
 
-  override public function watch( runner:Function ):void {
+  override public function watch(runner:Function):void {
     var watcher:ChangeWatcher = ChangeWatcher.watch(_source,
                                                     _properties,
                                                     runner);

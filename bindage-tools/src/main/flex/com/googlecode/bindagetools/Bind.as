@@ -15,10 +15,6 @@
  */
 
 package com.googlecode.bindagetools {
-import com.googlecode.bindagetools.impl.MultiPipelineBuilder;
-import com.googlecode.bindagetools.impl.PropertyPipelineBuilder;
-import com.googlecode.bindagetools.impl.SetterPipeline;
-
 /**
  * A factory for creating binding pipelines between arbitrary <code>[Bindable]</code> properties.
  *
@@ -227,6 +223,10 @@ public class Bind {
   public function Bind() {
   }
 
+  public static function nextTime():IPipelineBuilderFactory {
+    return bind().nextTime();
+  }
+
   /**
    * Returns a new binding pipeline builder, which binds from the specified property of the given
    * source
@@ -253,18 +253,9 @@ public class Bind {
    * @throws ArgumentError if source is null, or if any element of properties is null or not a
    * valid value.
    */
-  public static function fromProperty( source:Object,
-                                       property:Object,
-                                       ... additionalProperties ):IPropertyPipelineBuilder {
-    var properties:Array;
-    if (property is Array && additionalProperties.length == 0) {
-      properties = property as Array;
-    }
-    else {
-      properties = [property].concat(additionalProperties);
-    }
-
-    return new PropertyPipelineBuilder(source, properties);
+  public static function fromProperty(source:Object, property:Object,
+                                      ... additionalProperties):IPropertyPipelineBuilder {
+    return bind().fromProperty.apply(null, [source,  property].concat(additionalProperties));
   }
 
   /**
@@ -302,8 +293,8 @@ public class Bind {
    * @param sources an array of IPipelineBuilder instances.
    * @return the new binding pipeline builder.
    */
-  public static function fromAll( ... pipelines ):IPipelineBuilder {
-    return new MultiPipelineBuilder(pipelines);
+  public static function fromAll(... pipelines):IPipelineBuilder {
+    return bind().fromAll.apply(null, pipelines);
   }
 
   /**
@@ -316,38 +307,9 @@ public class Bind {
    * omitted, a BindGroup will be provided automatically.
    * @throws ArgumentError if either source or target is not an IPropertyPipeline instance.
    */
-  public static function twoWay( source:IPipelineBuilder,
-                                 target:IPipelineBuilder,
-                                 group:BindGroup = null ):void {
-    if (!(source is IPropertyPipelineBuilder)) {
-      throw new ArgumentError("Source pipeline must originate from a single property");
-    }
-    if (!(target is IPropertyPipelineBuilder)) {
-      throw new ArgumentError("Target pipeline must originate from a single property");
-    }
-
-    if (group == null) {
-      group = new BindGroup();
-    }
-
-    source.group(group);
-    target.group(group);
-
-    var sourcePipeline:IPropertyPipelineBuilder = IPropertyPipelineBuilder(source);
-    var targetPipeline:IPropertyPipelineBuilder = IPropertyPipelineBuilder(target);
-
-    var sourceSetter:IPipeline = new SetterPipeline(sourcePipeline.source,
-                                                    sourcePipeline.properties);
-    var targetSetter:IPipeline = new SetterPipeline(targetPipeline.source,
-                                                    targetPipeline.properties);
-
-    var sourceToTargetRunner:Function = source.runner(targetSetter);
-    var targetToSourceRunner:Function = target.runner(sourceSetter);
-
-    source.watch(sourceToTargetRunner);
-    target.watch(targetToSourceRunner);
-
-    sourceToTargetRunner();
+  public static function twoWay(source:IPipelineBuilder, target:IPipelineBuilder,
+                                group:BindGroup = null):void {
+    return bind().twoWay(source, target, group);
   }
 }
 
