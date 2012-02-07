@@ -1462,60 +1462,60 @@ public class BindTest implements ILoggingTarget {
     assertThat(source.foo,
                equalTo(null)); // no change because target.bar is still false
   }
-  
+
   [Test]
   public function nextTimeFromPropertyToProperty():void {
     source.foo = "a";
     target.bar = "b";
-    
+
 	  Bind.nextTime()
 	      .fromProperty(source, "foo")
 	      .toProperty(target, "bar");
-	  
+
 	  assertThat(target.bar,
 	             equalTo("b"));
-	  
+
 	  source.foo = "c";
-	  
+
 	  assertThat(target.bar,
 	             equalTo("c"));
   }
-  
+
   [Test]
   public function nextTimeFromAllConvertToProperty():void {
     source.foo = "a";
     source.bar = "b";
     target.baz = "c";
-    
+
     Bind.nextTime()
         .fromAll(Bind.fromProperty(source, "foo"),
                  Bind.fromProperty(source, "bar"))
         .convert(args())
         .toProperty(target, "baz");
-    
+
     assertThat(target.baz, equalTo("c"));
-    
+
     source.foo = "1";
-    
+
     assertThat(target.baz, array("1", "b"));
-    
+
     source.bar = "2";
-    
+
     assertThat(target.baz, array("1", "2"));
   }
-  
+
   public function nextTimeTwoWay():void {
     source.foo = "a";
     target.bar = "b";
-    
+
     Bind.nextTime()
         .twoWay(Bind.fromProperty(source, "foo"),
                 Bind.fromProperty(target, "bar"));
-    
+
     assertThat(target.bar, equalTo("b"));
-    
+
     source.foo = "c";
-    
+
     assertThat(target.bar, equalTo("c"));
   }
 
