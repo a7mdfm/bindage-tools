@@ -41,8 +41,14 @@ public function getProperty( host:Object,
     if (property is String) {
       result = result[property as String];
     }
-    else {
+    else if (property.getter is Function) {
       result = property.getter(result);
+    }
+    else if (property.name is String) {
+      result = result[property.name];
+    }
+    else {
+      throw new ArgumentError("Property must be a String, or have a property getter:Function or name:String");
     }
 
     if (result == null) {

@@ -106,35 +106,34 @@ public class PipelineBuilder implements IPipelineBuilder {
   private static function checkCustomGetterProperty( property:Object ):void {
     checkNullProperty(property);
     if (!(property is String)) {
-      requireOwnProperty(property, "name", String);
-      requireOwnProperty(property, "getter", Function);
+      var name:String = property.name as String;
+      var getter:Function = property.getter as Function;
+      var events:Array = property.events as Array;
+
+      if (!(name && getter || name && events || getter && events)) {
+        throw new ArgumentError("Custom getter property must have two of these properties: " +
+        		"name:String, getter:Function, or events:Array");
+      }
     }
   }
 
   private static function checkCustomSetterProperty( property:Object ):void {
     checkNullProperty(property);
     if (!(property is String)) {
-      requireOwnProperty(property, "name", String);
-      requireOwnProperty(property, "setter", Function);
+      var name:String = property.name as String;
+      var setter:Function = property.setter as Function;
+      var events:Array = property.events as Array;
+
+      if (!(name && setter || name && events || setter && events )) {
+        throw new ArgumentError("Custom setter property must have two of these attributes: " +
+            "name:String, setter:Function, or events:Array");
+      }
     }
   }
 
   private static function checkNullProperty( property:Object ):void {
     if (property == null) {
       throw new ArgumentError("property was null");
-    }
-  }
-
-  protected static function requireOwnProperty( property:Object,
-                                                name:String,
-                                                type:Class ):void {
-    if (!property.hasOwnProperty(name)) {
-      throw new ArgumentError("Custom property missing attribute '" + name + "'.");
-    }
-
-    if (!(property[name] is type)) {
-      throw new ArgumentError("Custom property attribute '" +
-                              name + "' should be of type " + "'" + type + "'")
     }
   }
 

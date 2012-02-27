@@ -1504,6 +1504,7 @@ public class BindTest implements ILoggingTarget {
     assertThat(target.baz, array("1", "2"));
   }
 
+  [Test]
   public function nextTimeTwoWay():void {
     source.foo = "a";
     target.bar = "b";
@@ -1515,6 +1516,22 @@ public class BindTest implements ILoggingTarget {
     assertThat(target.bar, equalTo("b"));
 
     source.foo = "c";
+
+    assertThat(target.bar, equalTo("c"));
+  }
+
+  [Test]
+  public function fromEventProperty():void {
+    var src:UnboundBean = new UnboundBean();
+    src.foo = "a";
+    target.bar = "b";
+
+    Bind.fromProperty(src, { name : 'foo', events: ['fooChanged'] })
+        .toProperty(target, 'bar');
+
+    assertThat(target.bar, equalTo("a"));
+
+    src.foo = "c";
 
     assertThat(target.bar, equalTo("c"));
   }

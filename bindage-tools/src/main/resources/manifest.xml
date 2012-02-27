@@ -52,6 +52,7 @@
   <component class="com.googlecode.bindagetools.properties.itemAt"/>
   <component class="com.googlecode.bindagetools.properties.style"/>
   <component class="com.googlecode.bindagetools.util.applyArgs"/>
+  <component class="com.googlecode.bindagetools.util.EventChangeWatcher"/>
   <component class="com.googlecode.bindagetools.util.getProperty"/>
   <component class="com.googlecode.bindagetools.util.preventRecursion"/>
   <component class="com.googlecode.bindagetools.util.setProperty"/>
