@@ -16,6 +16,7 @@
 
 package com.googlecode.bindagetools.impl {
 import com.googlecode.bindagetools.*;
+import com.googlecode.bindagetools.util.EventChangeWatcher;
 import com.googlecode.bindagetools.util.getProperty;
 
 import mx.binding.utils.ChangeWatcher;
@@ -67,9 +68,7 @@ public class PropertyPipelineBuilder extends PipelineBuilder implements IPropert
   }
 
   override public function watch(runner:Function):void {
-    var watcher:ChangeWatcher = ChangeWatcher.watch(_source,
-                                                    _properties,
-                                                    runner);
+    var watcher:ChangeWatcher = EventChangeWatcher.watch(_source, _properties, runner);
     BindTracker.changeWatcherCreated(watcher);
   }
 

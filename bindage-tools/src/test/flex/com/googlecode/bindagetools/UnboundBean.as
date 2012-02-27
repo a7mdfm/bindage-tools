@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Overstock.com and others.
+ * Copyright 2012 Matthew Hall and others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 package com.googlecode.bindagetools {
 import flash.events.Event;
+import flash.events.EventDispatcher;
 
-[Bindable]
-public class Bean {
+public class UnboundBean extends EventDispatcher{
 
-  function Bean() {
+  function UnboundBean() {
   }
 
   private var _foo:*;
@@ -38,7 +38,6 @@ public class Bean {
    * we can be more confident that testing will catch infinite recursion problems.
    */
 
-  [Bindable( "fooChanged" )]
   public function get foo():* {
     return _foo;
   }
@@ -48,7 +47,6 @@ public class Bean {
     dispatchEvent(new Event("fooChanged"));
   }
 
-  [Bindable( "barChanged" )]
   public function get bar():* {
     return _bar;
   }
@@ -58,7 +56,6 @@ public class Bean {
     dispatchEvent(new Event("barChanged"));
   }
 
-  [Bindable( "bazChanged" )]
   public function get baz():* {
     return _baz;
   }

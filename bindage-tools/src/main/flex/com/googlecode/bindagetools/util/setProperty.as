@@ -51,8 +51,14 @@ public function setProperty( object:Object,
     if (childProperty is String) {
       host[childProperty] = value;
     }
-    else {
+    else if (childProperty.setter is Function) {
       childProperty.setter(host, value);
+    }
+    else if (childProperty.name is String) {
+      host[childProperty.name] = value;
+    }
+    else {
+      throw new ArgumentError("Property must be a String, or have a property setter:Function or name:String");
     }
   }
 }
