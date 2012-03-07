@@ -145,7 +145,7 @@ public class PipelineBuilder implements IPipelineBuilder {
           result.push(prop);
         }
       }
-      else if (property.hasOwnProperty("name")) {
+      else if (property.getter is Function || property.name is String) {
         result.push(property);
       }
     }

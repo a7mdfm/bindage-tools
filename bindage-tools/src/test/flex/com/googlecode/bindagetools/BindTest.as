@@ -1521,7 +1521,7 @@ public class BindTest implements ILoggingTarget {
   }
 
   [Test]
-  public function fromEventProperty():void {
+  public function fromCustomNameWithEventsProperty():void {
     var src:UnboundBean = new UnboundBean();
     src.foo = "a";
     target.bar = "b";
@@ -1534,6 +1534,26 @@ public class BindTest implements ILoggingTarget {
     src.foo = "c";
 
     assertThat(target.bar, equalTo("c"));
+  }
+
+  [Test]
+  public function fromCustomGetterWithEventsProperty():void {
+    var src:UnboundBean = new UnboundBean();
+    src.foo = 2;
+    target.bar = 1;
+
+    function fooSquared(obj:UnboundBean):Number {
+      return obj.foo * obj.foo;
+    };
+
+    Bind.fromProperty(src, { getter: fooSquared, events: ['fooChanged'] })
+        .toProperty(target, 'bar');
+
+    assertThat(target.bar, equalTo(4));
+
+    src.foo = 3;
+
+    assertThat(target.bar, equalTo(9));
   }
 
   private static function numberToString( value:* ):String {
