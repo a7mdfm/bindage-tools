@@ -25,7 +25,7 @@
 
   <groupId>com.googlecode.bindage-tools</groupId>
   <artifactId>bindage-tools-parent</artifactId>
-  <version>0.0.6</version>
+  <version>0.0.7-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>BindageTools parent project</name>
@@ -63,7 +63,7 @@
   <scm>
     <connection>scm:hg:https://bindage-tools.googlecode.com/hg/</connection>
     <developerConnection>scm:hg:https://bindage-tools.googlecode.com/hg/</developerConnection>
-    <tag>Version-0.0.6</tag>
+    <tag>tip</tag>
     <url>http://code.google.com/p/bindage-tools/source/browse/</url>
   </scm>
 
