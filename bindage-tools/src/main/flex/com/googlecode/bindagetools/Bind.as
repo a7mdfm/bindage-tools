@@ -15,6 +15,8 @@
  */
 
 package com.googlecode.bindagetools {
+import com.googlecode.bindagetools.impl.PipelineBuilderFactory;
+
 /**
  * A factory for creating binding pipelines between arbitrary <code>[Bindable]</code> properties.
  *
@@ -224,7 +226,7 @@ public class Bind {
   }
 
   public static function nextTime():IPipelineBuilderFactory {
-    return bind().nextTime();
+    return new PipelineBuilderFactory().nextTime();
   }
 
   /**
@@ -255,7 +257,8 @@ public class Bind {
    */
   public static function fromProperty(source:Object, property:Object,
                                       ... additionalProperties):IPropertyPipelineBuilder {
-    return bind().fromProperty.apply(null, [source,  property].concat(additionalProperties));
+    var args:Array = [source,  property].concat(additionalProperties);
+    return new PipelineBuilderFactory().fromProperty.apply(null, args);
   }
 
   /**
@@ -294,7 +297,7 @@ public class Bind {
    * @return the new binding pipeline builder.
    */
   public static function fromAll(... pipelines):IPipelineBuilder {
-    return bind().fromAll.apply(null, pipelines);
+    return new PipelineBuilderFactory().fromAll.apply(null, pipelines);
   }
 
   /**
@@ -309,7 +312,7 @@ public class Bind {
    */
   public static function twoWay(source:IPipelineBuilder, target:IPipelineBuilder,
                                 group:BindGroup = null):void {
-    return bind().twoWay(source, target, group);
+    return new PipelineBuilderFactory().twoWay(source, target, group);
   }
 }
 
