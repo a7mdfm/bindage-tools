@@ -63,7 +63,7 @@
   <scm>
     <connection>scm:hg:https://bindage-tools.googlecode.com/hg/</connection>
     <developerConnection>scm:hg:https://bindage-tools.googlecode.com/hg/</developerConnection>
-    <tag>tip</tag>
+    <tag>Version-0.0.6</tag>
     <url>http://code.google.com/p/bindage-tools/source/browse/</url>
   </scm>
 
