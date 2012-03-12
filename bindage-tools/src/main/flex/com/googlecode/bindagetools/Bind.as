@@ -217,6 +217,21 @@ import com.googlecode.bindagetools.impl.PipelineBuilderFactory;
  *         .delay(400) // milliseconds
  *         .toFunction(searchItems);
  * </pre>
+ *
+ * <h4>Set up a binding without running it at time of setup</h4>
+ *
+ * <p>
+ * Occasionally it is necessary to set up a binding but not run it right away--instead, it should
+ * run the next time the source property or properties change.
+ * </p>
+ *
+ * <pre>
+ *     // Do not show error message initially
+ *     Bind.nextTime()
+ *         .fromProperty(model, "name")
+ *         .convert(validateName)
+ *         .toProperty(nameInput, "errorString");
+ * </pre>
  */
 public class Bind {
   /**
@@ -225,6 +240,10 @@ public class Bind {
   public function Bind() {
   }
 
+  /**
+   * Returns a pipeline builder (with the same binding methods as this class) which will set up
+   * bindings but not run them at setup time.
+   */
   public static function nextTime():IPipelineBuilderFactory {
     return new PipelineBuilderFactory().nextTime();
   }
