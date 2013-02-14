@@ -18,16 +18,12 @@ package com.googlecode.bindagetools.impl {
 import com.googlecode.bindagetools.IPipeline;
 import com.googlecode.bindagetools.IPipelineStep;
 
-import mx.logging.ILogger;
-import mx.logging.Log;
 import mx.logging.LogEventLevel;
 
 /**
  * @private
  */
 public class LogStep implements IPipelineStep {
-
-  private static const logger:ILogger = Log.getLogger("com.googlecode.bindagetools.Bind");
 
   private var level:int;
   private var message:String;

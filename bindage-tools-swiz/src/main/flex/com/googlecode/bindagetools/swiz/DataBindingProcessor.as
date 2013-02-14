@@ -58,7 +58,7 @@ public class DataBindingProcessor extends BaseMetadataProcessor {
   // ========================================
 
   protected var logger:ILogger = Log.getLogger(
-      "com.googlecode.cs.creditterminal.processors.DataBindingProcessor");
+      "com.googlecode.bindagetools.swiz.DataBindingProcessor");
 
   protected var changeWatchersBySource:Dictionary = new Dictionary();
 
