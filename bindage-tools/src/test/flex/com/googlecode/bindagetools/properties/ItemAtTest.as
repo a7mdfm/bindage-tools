@@ -15,6 +15,8 @@
  */
 
 package com.googlecode.bindagetools.properties {
+import com.googlecode.bindagetools.Bind;
+
 import mx.collections.ArrayCollection;
 
 import org.hamcrest.assertThat;
@@ -22,6 +24,10 @@ import org.hamcrest.collection.array;
 import org.hamcrest.object.equalTo;
 import org.hamcrest.object.hasProperties;
 import org.hamcrest.object.instanceOf;
+
+import com.googlecode.bindagetools.Bean;
+
+import org.hamcrest.object.nullValue;
 
 public class ItemAtTest {
 
@@ -80,6 +86,34 @@ public class ItemAtTest {
     assertThat(coll,
                array("x", "b", "c"));
   }
+
+  [Test]
+  public function testItemAtBindNestedChangeAnotherItem():void {
+    var receivedValue:*;
+
+    function theFunction( value:* ):void {
+      receivedValue = value;
+    }
+
+    var a:Bean = new Bean();
+    a.foo = "a";
+
+    var b:Bean = new Bean();
+    b.foo = "b";
+
+    var coll:ArrayCollection = new ArrayCollection([a, b]);
+
+    Bind.nextTime()
+        .fromProperty(coll, itemAt(0), "foo")
+        .toFunction(theFunction);
+
+    coll[1].foo = "c";
+
+    assertThat(receivedValue,
+               nullValue());
+
+  }
+
 
 }
 
