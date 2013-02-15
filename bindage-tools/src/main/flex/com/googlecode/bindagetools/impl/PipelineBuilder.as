@@ -64,6 +64,10 @@ public class PipelineBuilder implements IPipelineBuilder {
     return append(new LogStep(level, message));
   }
 
+  public function throttle( intervalMillis:int ):IPipelineBuilder {
+    return append(new ThrottleStep(intervalMillis));
+  }
+
   public function trace( message:String ):IPipelineBuilder {
     return append(new TraceStep(message));
   }
@@ -190,21 +194,35 @@ public class PipelineBuilder implements IPipelineBuilder {
       if (step is DelayStep) {
         // We exited the groups when the delay started.  Wrap the pipeline in each group to
         // ensure we don't get round-robin bindings.
-        pipeline = wrapPipelineInGroups(pipeline);
+        pipeline = wrapPipelineInExclusiveGroups(pipeline);
+      }
+      else if (step is ThrottleStep) {
+        // Depending on whether the required interval has elapsed, the throttling may or may
+        // not delay execution of the next step using a timer. Therefore wrap the next step
+        // in a pipeline that will recursively call into the group if necessary.
+        pipeline = wrapPipelineInRecursiveGroups(pipeline);
       }
 
       pipeline = step.wrap(pipeline);
     }
 
-    pipeline = wrapPipelineInGroups(pipeline);
+    pipeline = wrapPipelineInExclusiveGroups(pipeline);
 
     return pipeline;
   }
 
-  private function wrapPipelineInGroups( pipeline:IPipeline ):IPipeline {
+  private function wrapPipelineInExclusiveGroups( pipeline:IPipeline ):IPipeline {
     var result:IPipeline = pipeline;
     for each (var group:BindGroup in groups) {
-      result = new GroupPipeline(group, result);
+      result = new ExclusiveGroupPipeline(group, result);
+    }
+    return result;
+  }
+
+  private function wrapPipelineInRecursiveGroups( pipeline:IPipeline ):IPipeline {
+    var result:IPipeline = pipeline;
+    for each (var group:BindGroup in groups) {
+      result = new RecursiveGroupPipeline(group, result);
     }
     return result;
   }

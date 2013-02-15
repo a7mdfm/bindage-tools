@@ -724,14 +724,34 @@ public class BindTest implements ILoggingTarget {
     assertThat(target.bar,
                equalTo(null));
 
-    source.foo = 3;
+    Async.proceedOnEvent(this, target, "barChanged", 100, verifyTargetChanged);
+    function verifyTargetChanged( event:* ):void {
+      assertThat(target.bar,
+                 equalTo(2));
+    }
+  }
+
+  [Test( async )]
+  public function fromPropertyThrottleToProperty():void {
+    source.foo = 1;
+
+    Bind.fromProperty(source, "foo")
+        .log(LogEventLevel.INFO, "fromPropertyThrottleToProperty: throttling value {0}")
+        .throttle(20)
+        .log(LogEventLevel.INFO, "fromPropertyThrottleToProperty: throttling interval elapsed for value {0}")
+        .toProperty(target, "bar");
+
     assertThat(target.bar,
-               equalTo(null));
+               equalTo(1));
+
+    source.foo = 2;
+    assertThat(target.bar,
+               equalTo(1));
 
     Async.proceedOnEvent(this, target, "barChanged", 100, verifyTargetChanged);
     function verifyTargetChanged( event:* ):void {
       assertThat(target.bar,
-                 equalTo(1));
+                 equalTo(2));
     }
   }
 
@@ -758,6 +778,9 @@ public class BindTest implements ILoggingTarget {
     target.bar = 4;
     target.bar = 5;
 
+    assertThat(source.foo,
+        equalTo(1));
+
     Async.proceedOnEvent(this, source, "fooChanged", 100, verifySourceChanged);
 
     Async.failOnEvent(this, target, "barChanged"); // ensure two-way binding does not rebound
@@ -766,6 +789,42 @@ public class BindTest implements ILoggingTarget {
       assertThat(source.foo,
                  equalTo(5));
 
+    }
+  }
+
+  [Test( async )]
+  public function twoWayThrottled():void {
+    source.foo = 1;
+
+    function plusOne( value:Number ):Number {
+      return value + 1;
+    }
+
+    Bind.twoWay(
+        Bind.fromProperty(source, "foo")
+            .convert(plusOne),
+        Bind.fromProperty(target, "bar")
+            .log(LogEventLevel.INFO, "twoWayThrottled: throttling value {0}")
+            .throttle(50)
+            .log(LogEventLevel.INFO, "twoWayThrottled: throttling interval elapsed for value {0}"));
+
+    assertThat(target.bar,
+               equalTo(2));
+
+    target.bar = 3;
+    target.bar = 4;
+    target.bar = 5;
+
+    assertThat(source.foo,
+        equalTo(3));
+
+    Async.proceedOnEvent(this, source, "fooChanged", 100, verifySourceChanged);
+
+    Async.failOnEvent(this, target, "barChanged"); // ensure two-way binding does not rebound
+
+    function verifySourceChanged( event:* ):void {
+      assertThat(source.foo,
+                 equalTo(5));
     }
   }
 

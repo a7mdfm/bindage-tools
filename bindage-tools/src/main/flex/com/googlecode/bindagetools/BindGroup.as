@@ -74,6 +74,23 @@ public class BindGroup {
     }
   }
 
+  /**
+   * Calls the given function regardless whether this group is already calling another function.
+   *
+   * @param func the function to call
+   * @param args the arguments to send to the function.
+   */
+  public function callRecursively( func:Function,
+                                   ...args ):void {
+    var wasRunning:Boolean = running;
+    try {
+      running = true;
+      func.apply(null, args);
+    } finally {
+      running = wasRunning;
+    }
+  }
+
 }
 
 }
