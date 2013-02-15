@@ -50,11 +50,12 @@ public interface IPipelineBuilder {
 
   /**
    * Appends a delay step to the end of the binding pipeline.  Value(s) in the pipeline will be
-   * held for <code>delay</code> milliseconds before sending them to the next step in the pipeline.
-   * If any new value(s) are received before the delay has elapsed, the old value(s) are discarded,
-   * and the delay starts over with the new value(s).
+   * held for <code>delayMillis</code> milliseconds before sending them to the next step in the
+   * pipeline. If any new value(s) are received before the delay has elapsed, the old value(s) are
+   * discarded, and the delay starts over with the new value(s).
    *
    * @param delayMillis the delay in milliseconds.
+   * @see #throttle
    */
   function delay( delayMillis:int ):IPipelineBuilder;
 
@@ -109,6 +110,17 @@ public interface IPipelineBuilder {
    */
   function log( level:int,
                 message:String ):IPipelineBuilder;
+
+  /**
+   * Appends a throttling step to the end of the binding pipeline.  Value(s) in the pipeline will
+   * be held until at least <code>intervalMillis</code> milliseconds since the binding was last
+   * executed. If multiple changes are received during a wait interval, only the latest changes
+   * will be sent to the next step in the pipeline.
+   *
+   * @param intervalMillis the wait interval in milliseconds.
+   * @see #delay
+   */
+  function throttle( intervalMillis:int ):IPipelineBuilder;
 
   /**
    * Appends a trace step to the end of the binding pipeline.  The given message is sent to the

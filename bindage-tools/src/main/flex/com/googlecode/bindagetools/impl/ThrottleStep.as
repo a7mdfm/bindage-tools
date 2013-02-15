@@ -15,21 +15,22 @@
  */
 
 package com.googlecode.bindagetools.impl {
-import com.googlecode.bindagetools.BindGroup;
 import com.googlecode.bindagetools.IPipeline;
+import com.googlecode.bindagetools.IPipelineStep;
 
-public class GroupPipeline implements IPipeline {
+/**
+ * @private
+ */
+public class ThrottleStep implements IPipelineStep {
 
-  private var group:BindGroup;
-  private var next:IPipeline;
+  private var intervalMillis:int;
 
-  public function GroupPipeline( group:BindGroup, next:IPipeline ) {
-    this.group = group;
-    this.next = next;
+  public function ThrottleStep( intervalMillis:int ) {
+    this.intervalMillis = intervalMillis;
   }
 
-  public function run( args:Array ):void {
-    group.callExclusively(next.run, args);
+  public function wrap( next:IPipeline ):IPipeline {
+    return new ThrottlePipeline(intervalMillis, next);
   }
 
 }

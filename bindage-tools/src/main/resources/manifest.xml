@@ -28,10 +28,11 @@
   <component class="com.googlecode.bindagetools.impl.ConvertStep"/>
   <component class="com.googlecode.bindagetools.impl.DelayPipeline"/>
   <component class="com.googlecode.bindagetools.impl.DelayStep"/>
+  <component class="com.googlecode.bindagetools.impl.ExclusiveGroupPipeline"/>
   <component class="com.googlecode.bindagetools.impl.FormatPipeline"/>
   <component class="com.googlecode.bindagetools.impl.FormatStep"/>
   <component class="com.googlecode.bindagetools.impl.FunctionPipeline"/>
-  <component class="com.googlecode.bindagetools.impl.GroupPipeline"/>
+  <component class="com.googlecode.bindagetools.impl.RecursiveGroupPipeline"/>
   <component class="com.googlecode.bindagetools.impl.LogPipeline"/>
   <component class="com.googlecode.bindagetools.impl.LogStep"/>
   <component class="com.googlecode.bindagetools.impl.MultiPipelineBuilder"/>
@@ -39,6 +40,8 @@
   <component class="com.googlecode.bindagetools.impl.PropertyPipelineBuilder"/>
   <component class="com.googlecode.bindagetools.impl.SetArgAndContinuePipeline"/>
   <component class="com.googlecode.bindagetools.impl.SetterPipeline"/>
+  <component class="com.googlecode.bindagetools.impl.ThrottlePipeline"/>
+  <component class="com.googlecode.bindagetools.impl.ThrottleStep"/>
   <component class="com.googlecode.bindagetools.impl.TracePipeline"/>
   <component class="com.googlecode.bindagetools.impl.TraceStep"/>
   <component class="com.googlecode.bindagetools.impl.ValidatePipeline"/>
